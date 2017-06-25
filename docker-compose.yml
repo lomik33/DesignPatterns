@@ -1,0 +1,8 @@
+version: '2.1'
+
+services:
+  efrepository:
+    image: efrepository
+    build:
+      context: .\EfRepository
+      dockerfile: Dockerfile
