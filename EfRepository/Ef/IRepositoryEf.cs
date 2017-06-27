@@ -42,4 +42,12 @@ public interface IRepositoryEf<TEntity> : IRepository<TEntity> where TEntity:cla
     TEntity ToSelect(Expression<Func<TEntity, bool>> predicate);
 
 
+    /// <summary>
+    /// Operacion para conocer si existen elementos en base a un predicado
+    /// </summary>
+    /// <param name="predicate"></param>
+    /// <returns></returns>
+    bool Exists(Expression<Func<TEntity, bool>> predicate);
+
+
 }
