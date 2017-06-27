@@ -23,6 +23,11 @@ namespace EfRepository.Ef
             throw new NotImplementedException();
         }
 
+        public bool Exists(Expression<Func<TEntity, bool>> predicate)
+        {
+            throw new NotImplementedException();
+        }
+
         public IQueryable<TEntity> Filter(Expression<Func<TEntity, bool>> predicate)
         {
             throw new NotImplementedException();
