@@ -10,9 +10,9 @@ namespace EfRepository.Ef
     /// <summary>
     /// Clase que hereda DbContext responsable del Mapeo de Clases a Entidades al modelo relacional.
     /// </summary>
-   public class EntityContext:DbContext
-    {
-        
+   public partial class EntityContext:DbContext
+    {        
+
         public EntityContext() : base("name=DefaultDbContext")
         {
             ///Estrategia de inicializacion
@@ -23,9 +23,10 @@ namespace EfRepository.Ef
         }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
-        {           
-            
-            base.OnModelCreating(modelBuilder);
+        {
+
+            //base.OnModelCreating(modelBuilder);
+            MapEntitiesEssentials(modelBuilder);
         }
 
         /// <summary>

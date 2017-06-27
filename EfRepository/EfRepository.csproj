@@ -44,6 +44,7 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data.Entity" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -55,6 +56,8 @@
     <Compile Include="Ef\EntityContext.cs" />
     <Compile Include="Ef\IRepository.cs" />
     <Compile Include="Ef\IRepositoryEf.cs" />
+    <Compile Include="Ef\MapEntitiesEssentials.cs" />
+    <Compile Include="Ef\MapPocos\PersonaPocoEntityConfiguration.cs" />
     <Compile Include="Ef\RepositoryEf.cs" />
     <Compile Include="Models\PersonaPoco.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
