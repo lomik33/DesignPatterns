@@ -55,6 +55,7 @@
     <Compile Include="Ef\EntityContext.cs" />
     <Compile Include="Ef\IRepository.cs" />
     <Compile Include="Ef\IRepositoryEf.cs" />
+    <Compile Include="Ef\RepositoryEf.cs" />
     <Compile Include="Models\PersonaPoco.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -62,9 +63,6 @@
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Ef\" />
-    <Folder Include="Models\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

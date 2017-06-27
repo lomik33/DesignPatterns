@@ -24,6 +24,22 @@ public interface IRepositoryEf<TEntity> : IRepository<TEntity> where TEntity:cla
     /// </summary>
     /// <param name="predicate"></param>
     /// <returns>Conjunto de objetos que cumplen con el predicado</returns>
-    IQueryable<TEntity> Filter(Expression<Func<TEntity, bool>> predicate);
+    IEnumerable<TEntity> Filter(Expression<Func<TEntity, bool>> predicate);
+
+
+    /// <summary>
+    /// Devuelve el total de coincidencias en base a un predicado
+    /// </summary>
+    /// <param name="predicate"></param>
+    /// <returns></returns>
+    int Count(Expression<Func<TEntity, bool>> predicate);
+
+    /// <summary>
+    /// Operación de seleccion en base a un predicado
+    /// </summary>
+    /// <param name="predicate"></param>
+    /// <returns></returns>
+    TEntity ToSelect(Expression<Func<TEntity, bool>> predicate);
+
 
 }

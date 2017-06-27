@@ -4,10 +4,10 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace EfRepositoryTest
 {
     [TestClass]
-    public class UnitTest1
+    public class EfTest
     {
         [TestMethod]
-        public void TestMethod1()
+        public void TestContextSave()
         {
         }
     }
