@@ -3,7 +3,7 @@
 namespace EfRepository.Ef
 {
     /// <summary>
-    /// Interfaz que define el comportamiento del patrón repository
+    /// Interfaz que define el comportamiento del patrón repository...
     /// Define los metódos para principales para crear un CRUD por entidad.
     /// </summary>
     /// <typeparam name="TEntity"></typeparam>
