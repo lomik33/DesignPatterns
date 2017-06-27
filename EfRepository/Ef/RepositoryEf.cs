@@ -55,7 +55,7 @@ namespace EfRepository.Ef
 
         IEnumerable<TEntity> IRepositoryEf<TEntity>.Filter(Expression<Func<TEntity, bool>> predicate)
         {
-            throw new NotImplementedException();
+            throw new NotImplementedException(); 
         }
     }
 }
