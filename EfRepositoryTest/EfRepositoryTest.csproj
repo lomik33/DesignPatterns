@@ -58,6 +58,7 @@
   <ItemGroup>
     <Compile Include="EfTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RepositoryTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -70,11 +71,6 @@
       <Project>{e00d60a3-c092-4d6c-ac5a-10c7195410f4}</Project>
       <Name>EfRepository</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Ef.mdf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
