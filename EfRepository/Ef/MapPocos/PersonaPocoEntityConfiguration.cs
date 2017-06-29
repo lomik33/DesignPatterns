@@ -11,7 +11,7 @@ namespace EfRepository.Ef.MapPocos
         {
             ToTable("Persona");
             HasKey(k => k.Uuid);
-            Property(p => p.Uuid).HasColumnAnnotation(IndexAnnotation.AnnotationName, new IndexAnnotation(new IndexAttribute() { IsUnique = true }));
+            Property(p => p.Uuid).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity).HasColumnAnnotation(IndexAnnotation.AnnotationName, new IndexAnnotation(new IndexAttribute() { IsUnique = true }));
             Property(p => p.Nombre)
                 .IsRequired()
                 .HasMaxLength(255);
