@@ -14,5 +14,10 @@ namespace EfRepository.Models
         public string ApellidoMaterno { get; set; }
         public string Sexo { get; set; }
         public DateTime? FechaNacimiento { get; set; }
+
+        public override string ToString()
+        {
+            return $"{Uuid} ({Nombre} {ApellidoPaterno} {ApellidoMaterno} {Sexo}) Fecha N.:{FechaNacimiento}";
+        }
     }
 }

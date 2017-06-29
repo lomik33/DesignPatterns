@@ -20,10 +20,10 @@ namespace EfRepositoryTest
         {
             PersonaBc bc = new PersonaBc();
             PersonaPoco poco = new PersonaPoco();
-            poco.Nombre = "Ismael";
-            poco.ApellidoPaterno = "López";
-            poco.ApellidoMaterno = "Martínez";            
-            poco.FechaNacimiento = new DateTime(1985, 5, 29);
+            poco.Nombre = "Gamaliel";
+            poco.ApellidoPaterno = "Romero";
+            poco.ApellidoMaterno = "Andalón";            
+            poco.FechaNacimiento = new DateTime(1987,02,12);
             poco.Sexo = "M";
             try
             {
@@ -36,7 +36,51 @@ namespace EfRepositoryTest
             {
                 Debug.WriteLine($"{poco.Nombre} {poco.ApellidoPaterno} {poco.ApellidoMaterno} no ha podido ser registrado detalle: {ex}");
             }
+        }
+
+        [TestMethod]
+        public void TestFilter()
+        {
+            PersonaBc bc = new PersonaBc();
+            foreach (var persona in bc.Filter(e=>e.Nombre.Contains("Ism")))
+                Debug.WriteLine(persona);
+        }
+
+        [TestMethod]
+        public void TestCount()
+        {
+            PersonaBc bc = new PersonaBc();
+            Debug.WriteLine($"Total Rows: {bc.Count()}");
+        }
+
+        [TestMethod]
+        public void TestSelect()
+        {
+            PersonaBc bc = new PersonaBc();
+            /*Búsqueda por Guid*/
+            var person = bc.Select<Guid>(Guid.Parse("2a5a55df-f35c-e711-9eb9-ecb1d73edabf"));
+            Debug.WriteLine($"{person}");
 
         }
+
+        [TestMethod]
+        public void TestFilterPagging()
+        {
+            PersonaBc bc = new PersonaBc();
+            foreach (var persona in bc.FilterPagging(e => e.Nombre))
+                Debug.WriteLine(persona);
+        }
+
+        [TestMethod]
+        public void TestUpdate()
+        {
+            PersonaBc bc = new PersonaBc();
+            /*Búsqueda por Guid*/
+            var person = bc.Select<Guid>(Guid.Parse("2a5a55df-f35c-e711-9eb9-ecb1d73edabf"));
+            person.Nombre = "Salvador";
+            bc.Update(person);
+            Debug.WriteLine($"{person}");
+        }
+
     }
 }

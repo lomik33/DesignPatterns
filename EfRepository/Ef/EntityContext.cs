@@ -17,7 +17,7 @@ namespace EfRepository.Ef
         {
             ///Estrategia de inicializacion
             ///Para efectos de demostración borra y crea la bd si el modelo cambio            
-            Database.SetInitializer(new DropCreateDatabaseIfModelChanges<EntityContext>());
+            //Database.SetInitializer(new DropCreateDatabaseIfModelChanges<EntityContext>());
             //Descomentar recomendable para escenarios en producción
             //Database.SetInitializer(new MigrateDatabaseToLatestVersion<EntityContext,Configuration>)
         }

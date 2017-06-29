@@ -46,21 +46,33 @@ public interface IRepositoryEf<TEntity>  where TEntity:class
     /// </summary>
     /// <param name="predicate"></param>
     /// <returns></returns>
-    TEntity ToSelect(Expression<Func<TEntity, bool>> predicate);    
+    TEntity Select(Expression<Func<TEntity, bool>> predicate);    
 
     /// <summary>
     /// Proyección de un conjunto de entidades en base a un predicado
     /// </summary>
     /// <param name="predicate"></param>
     /// <returns>Conjunto de objetos que cumplen con el predicado</returns>
-    IEnumerable<TEntity> Filter(Expression<Func<TEntity, bool>> predicate);
+    IEnumerable<TEntity> Filter(Expression<Func<TEntity, bool>> predicate=null);
+
+    /// <summary>
+    /// Proyección de un conjunto de entidades en base a un predicado paginado
+    /// </summary>
+    /// <typeparam name="TOrder"></typeparam>
+    /// <param name="orderByExpression"></param>
+    /// <param name="isOrderByDesc"></param>
+    /// <param name="predicate"></param>
+    /// <param name="rowIndex"></param>
+    /// <param name="pageSize"></param>
+    /// <returns></returns>
+    IEnumerable<TEntity> FilterPagging<TOrder>(Expression<Func<TEntity, TOrder>> orderByExpression, bool isOrderByDesc = false, Expression<Func<TEntity, bool>> predicate = null, int rowIndex = 0, int pageSize = 200);
 
     /// <summary>
     /// Devuelve el total de coincidencias en base a un predicado
     /// </summary>
     /// <param name="predicate"></param>
     /// <returns></returns>
-    int Count(Expression<Func<TEntity, bool>> predicate);   
+    int Count(Expression<Func<TEntity, bool>> predicate=null);   
 
 
     /// <summary>
@@ -68,7 +80,7 @@ public interface IRepositoryEf<TEntity>  where TEntity:class
     /// </summary>
     /// <param name="predicate"></param>
     /// <returns></returns>
-    bool Exists(Expression<Func<TEntity, bool>> predicate);
+    bool Exists(Expression<Func<TEntity, bool>> predicate=null);
 
 
     #region BatchTransactions
@@ -82,15 +94,15 @@ public interface IRepositoryEf<TEntity>  where TEntity:class
     /// <returns>Total instancias almacenadas</returns>
     int Save(IEnumerable<TEntity> elements, int saveSkip = 200);
 
-    /// <summary>
-    /// Operacion que obtiene entidades en base a una carga paginada.
-    /// </summary>
-    /// <param name="orderByExpression"></param>
-    /// <param name="predicate"></param>
-    /// <param name="isOrderByDesc"></param>
-    /// <param name="pageSize"></param>
-    /// <param name="includeExpressions"></param>
-    void ToSelectAll(Expression<Func<TEntity, Int64>> orderByExpression, Expression<Func<TEntity, bool>> predicate, bool isOrderByDesc = false, int pageSize = 200, params Expression<Func<TEntity, object>>[] includeExpressions);
+    ///// <summary>
+    ///// Operacion que obtiene entidades en base a una carga paginada.
+    ///// </summary>
+    ///// <param name="orderByExpression"></param>
+    ///// <param name="predicate"></param>
+    ///// <param name="isOrderByDesc"></param>
+    ///// <param name="pageSize"></param>
+    ///// <param name="includeExpressions"></param>
+    //void All(Expression<Func<TEntity, Int64>> orderByExpression, Expression<Func<TEntity, bool>> predicate, bool isOrderByDesc = false, int pageSize = 200, params Expression<Func<TEntity, object>>[] includeExpressions);
 
     #endregion
 

@@ -10,7 +10,7 @@ using System.Text;
 namespace EfRepository.Ef
 {
     /// <summary>
-    /// Clase que implementa el patrón Repository
+    /// Clase que implementa el patrón Repository con Entity Framework
     /// </summary>
     public abstract class RepositoryEf<TContext, TEntity> : IRepositoryEf<TEntity> where TEntity : class,new() where TContext : DbContext,new()
     {
@@ -27,25 +27,21 @@ namespace EfRepository.Ef
             this.Context = context;
         }
 
-        public int Count(Expression<Func<TEntity, bool>> predicate)
+        public bool Exists(Expression<Func<TEntity, bool>> predicate = null)
         {
-            throw new NotImplementedException();
+            if(predicate!=null)
+                return Context.Set<TEntity>().Any(predicate);
+            else
+                return Context.Set<TEntity>().Any();
         }
 
-        public bool Delete<TKey>(TKey key)
+        public int Count(Expression<Func<TEntity, bool>> predicate=null)
         {
-            throw new NotImplementedException();
-        }
-
-        public bool Exists(Expression<Func<TEntity, bool>> predicate)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<TEntity> Filter(Expression<Func<TEntity, bool>> predicate)
-        {
-            throw new NotImplementedException();
-        }
+            if (predicate != null)
+                return Context.Set<TEntity>().Count(predicate);
+            else
+                return Context.Set<TEntity>().Count();
+        }   
 
         public bool Save(TEntity entity)
         {
@@ -57,27 +53,72 @@ namespace EfRepository.Ef
 
         public int Save(IEnumerable<TEntity> elements, int saveSkip = 200)
         {
-            throw new NotImplementedException();
+            int totalSave= 0;
+            while (elements.Skip(totalSave).Take(saveSkip).Any())
+            {
+                var subList = elements.Skip(totalSave).Take(saveSkip);
+                Context.Set<TEntity>().AddRange(subList);
+                Context.SaveChanges();
+                totalSave += subList.Count();                
+            }
+            return totalSave;
         }
-
-        public TEntity Select<TKey>(TKey key)
+        public bool Delete<TKey>(TKey key)
         {
-            throw new NotImplementedException();
-        }
-
-        public TEntity ToSelect(Expression<Func<TEntity, bool>> predicate)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void ToSelectAll(Expression<Func<TEntity, long>> orderByExpression, Expression<Func<TEntity, bool>> predicate, bool isOrderByDesc = false, int pageSize = 200, params Expression<Func<TEntity, object>>[] includeExpressions)
-        {
-            throw new NotImplementedException();
+            bool centinela = false;
+            TEntity entityToDelete = this.Context.Set<TEntity>().Find(key);
+            this.Context.Set<TEntity>().Remove(entityToDelete);
+            centinela = Context.SaveChanges() > 0;
+            return centinela;
         }
 
         public bool Update(TEntity entity)
         {
-            throw new NotImplementedException();
+            bool centinela = false;            
+            int changes = Context.SaveChanges();
+            centinela = changes >= 0;
+            return centinela;
+        }
+
+        public TEntity Select<TKey>(TKey key)
+        {
+            return Context.Set<TEntity>().Find(key);
+        }
+
+        public TEntity Select(Expression<Func<TEntity, bool>> predicate)
+        {
+            return Context.Set<TEntity>().FirstOrDefault(predicate);
+        }
+
+        public IEnumerable<TEntity> Filter(Expression<Func<TEntity, bool>> predicate=null)
+        {
+            if(predicate!=null)
+                return Context.Set<TEntity>().Where(predicate);
+            else
+                return Context.Set<TEntity>().AsQueryable();
+        }
+      
+
+        public IEnumerable<TEntity> FilterPagging<TOrder>(Expression<Func<TEntity, TOrder>> orderByExpression, bool isOrderByDesc = false, Expression < Func<TEntity, bool>> predicate = null, int rowIndex = 0, int pageSize = 200)
+        {
+            IQueryable<TEntity> _resetSet = null;
+            var set = this.Context.Set<TEntity>().AsQueryable<TEntity>();
+            if (predicate != null)
+            {
+                set = set.Where(predicate);
+                if (isOrderByDesc)
+                    _resetSet = rowIndex == 0 ? set.OrderByDescending(orderByExpression).Take(pageSize) : set.OrderByDescending(orderByExpression).Skip(rowIndex).Take(pageSize);
+                else
+                    _resetSet = rowIndex == 0 ? set.Take(pageSize) : set.OrderBy(orderByExpression).Skip(rowIndex).Take(pageSize);
+            }
+            else
+            {
+                if (isOrderByDesc)
+                    _resetSet = rowIndex == 0 ? set.OrderByDescending(orderByExpression).Take(pageSize) : set.OrderByDescending(orderByExpression).Skip(rowIndex).Take(pageSize);
+                else
+                    _resetSet = rowIndex == 0 ? set.Take(pageSize) : set.OrderBy(orderByExpression).Skip(rowIndex).Take(pageSize);
+            }
+            return _resetSet;
         }
     }
 }
