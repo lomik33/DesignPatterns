@@ -5,7 +5,7 @@ using System.Data.Entity.ModelConfiguration;
 
 namespace EfRepository.Ef.MapPocos
 {
-    class PersonaPocoEntityConfiguration : EntityTypeConfiguration<PersonaPoco>
+    class PersonaPocoEntityConfiguration : EntityTypeConfiguration<PersonaPocoSample>
     {
         public PersonaPocoEntityConfiguration()
         {

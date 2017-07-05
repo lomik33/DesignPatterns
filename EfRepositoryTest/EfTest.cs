@@ -12,8 +12,8 @@ namespace EfRepositoryTest
         [TestMethod]
         public void TestContextSave()
         {
-             EntityContext ec=new EntityContext();            
-            var persona = new PersonaPoco()
+             EntityContextSample ec=new EntityContextSample();            
+            var persona = new PersonaPocoSample()
             {
                 Uuid = Guid.NewGuid(),
                 Nombre = "Juan",

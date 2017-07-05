@@ -4,13 +4,20 @@ using EfRepository.Models;
 
 namespace EfRepository.Ef
 {
-    public partial class EntityContext
+    public partial class EntityContextSample
     {
+        /// <summary>
+        /// Mapea por Fluent Api PersonaPoco
+        /// </summary>
+        /// <param name="modelBuilder"></param>
         public void MapEntitiesEssentials(DbModelBuilder modelBuilder)
         {
             modelBuilder.Configurations.Add(new PersonaPocoEntityConfiguration());
         }
 
-        public DbSet<PersonaPoco> Personas { get; set; }
+        /// <summary>
+        /// Conjunto de objetos PersonaPocoSample
+        /// </summary>
+        public DbSet<PersonaPocoSample> Personas { get; set; }
     }
 }

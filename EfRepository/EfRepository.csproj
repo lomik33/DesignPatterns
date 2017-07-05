@@ -56,13 +56,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Bc\PersonaBc.cs" />
-    <Compile Include="Ef\EntityContext.cs" />
-    <Compile Include="Ef\IRepositoryEf.cs" />
+    <Compile Include="Manager\IManagerResponse.cs" />
+    <Compile Include="Manager\Manager.cs" />
+    <Compile Include="Ef\EntityContextSample.cs" />
+    <Compile Include="Manager\ManagerResponse.cs" />
+    <Compile Include="Manager\PersonaManager.cs" />
+    <Compile Include="Repository\IRepositoryEf.cs" />
+    <Compile Include="Repository\IRepositoryEfAsync.cs" />
     <Compile Include="Ef\MapEntitiesEssentials.cs" />
     <Compile Include="Ef\MapPocos\PersonaPocoEntityConfiguration.cs" />
-    <Compile Include="Ef\RepositoryEf.cs" />
-    <Compile Include="Models\PersonaPoco.cs" />
+    <Compile Include="Repository\RepositoryEf.cs" />
+    <Compile Include="Models\PersonaPocoSample.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -75,5 +79,6 @@
       <Generator>SettingsSingleFileGenerator</Generator>
     </None>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
