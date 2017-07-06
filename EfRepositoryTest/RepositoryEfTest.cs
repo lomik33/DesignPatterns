@@ -14,24 +14,27 @@ namespace EfRepositoryTest
 
         [TestMethod]
         public void TestSave()
-        {            
-            var repository = new RepositoryEf<EntityContextSample, PersonaPocoSample>(new EntityContextSample());
-            PersonaPocoSample poco = new PersonaPocoSample();
-            poco.Nombre = "Gamaliel";
-            poco.ApellidoPaterno = "Romero";
-            poco.ApellidoMaterno = "Andalón";            
-            poco.FechaNacimiento = new DateTime(1987,02,12);
-            poco.Sexo = "M";
-            try
+        {
+            using (var context = new EntityContextSample())
             {
-                if (repository.Save(poco))
-                    Debug.WriteLine($"{poco.Nombre} {poco.ApellidoPaterno} {poco.ApellidoMaterno} ha sigo registrado satisfactoriamente con uuid: {poco.Uuid}");
-                else
-                    Debug.WriteLine($"{poco.Nombre} {poco.ApellidoPaterno} {poco.ApellidoMaterno} no ha podido ser registrado.");
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine($"{poco.Nombre} {poco.ApellidoPaterno} {poco.ApellidoMaterno} no ha podido ser registrado detalle: {ex}");
+                var repository = new RepositoryEf<EntityContextSample, PersonaPocoSample>(context);
+                PersonaPocoSample poco = new PersonaPocoSample();
+                poco.Nombre = "Gamaliel";
+                poco.ApellidoPaterno = "Romero";
+                poco.ApellidoMaterno = "Andalón";
+                poco.FechaNacimiento = new DateTime(1987, 02, 12);
+                poco.Sexo = "M";
+                try
+                {
+                    if (repository.Create(poco))
+                        Debug.WriteLine($"{poco.Nombre} {poco.ApellidoPaterno} {poco.ApellidoMaterno} ha sigo registrado satisfactoriamente con uuid: {poco.Uuid}");
+                    else
+                        Debug.WriteLine($"{poco.Nombre} {poco.ApellidoPaterno} {poco.ApellidoMaterno} no ha podido ser registrado.");
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine($"{poco.Nombre} {poco.ApellidoPaterno} {poco.ApellidoMaterno} no ha podido ser registrado detalle: {ex}");
+                }
             }
         }
 
@@ -39,7 +42,7 @@ namespace EfRepositoryTest
         public void TestFilter()
         {
             var repository = new RepositoryEf<EntityContextSample, PersonaPocoSample>(new EntityContextSample());
-            foreach (var persona in repository.Filter(e=>e.Nombre.Contains("Ism")))
+            foreach (var persona in repository.Retrieve(e=>e.Nombre.Contains("Ism")))
                 Debug.WriteLine(persona);
         }
 
@@ -55,7 +58,7 @@ namespace EfRepositoryTest
         {
             var repository = new RepositoryEf<EntityContextSample, PersonaPocoSample>(new EntityContextSample());
             /*Búsqueda por Guid*/
-            var person = repository.Select<Guid>(Guid.Parse("2a5a55df-f35c-e711-9eb9-ecb1d73edabf"));
+            var person = repository.RetrieveFirstOrDefault<Guid>(Guid.Parse("2a5a55df-f35c-e711-9eb9-ecb1d73edabf"));
             Debug.WriteLine($"{person}");
 
         }
@@ -64,7 +67,7 @@ namespace EfRepositoryTest
         public void TestFilterPagging()
         {
             var repository = new RepositoryEf<EntityContextSample, PersonaPocoSample>(new EntityContextSample());
-            foreach (var persona in repository.FilterPagging(e => e.Nombre))
+            foreach (var persona in repository.RetrievePagging(e => e.Nombre))
                 Debug.WriteLine(persona);
         }
 
@@ -73,7 +76,7 @@ namespace EfRepositoryTest
         {
             var repository = new RepositoryEf<EntityContextSample, PersonaPocoSample>(new EntityContextSample());
             /*Búsqueda por Guid*/
-            var person = repository.Select<Guid>(Guid.Parse("2a5a55df-f35c-e711-9eb9-ecb1d73edabf"));
+            var person = repository.RetrieveFirstOrDefault<Guid>(Guid.Parse("2a5a55df-f35c-e711-9eb9-ecb1d73edabf"));
             person.Nombre = "Salvador";
             repository.Update(person);
             Debug.WriteLine($"{person}");

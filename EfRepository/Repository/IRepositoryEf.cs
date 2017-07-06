@@ -16,7 +16,7 @@ public interface IRepositoryEf<TEntity>  where TEntity:class
     /// </summary>
     /// <param name="entity">entidad de negocio</param>
     /// <returns></returns>
-    bool Save(TEntity entity);
+    bool Create(TEntity entity);
     /// <summary>
     /// Operacion de actualizacion
     /// </summary>
@@ -39,21 +39,21 @@ public interface IRepositoryEf<TEntity>  where TEntity:class
     /// <typeparam name="TKey"></typeparam>
     /// <param name="key"></param>
     /// <returns></returns>
-    TEntity Select<TKey>(TKey key);
+    TEntity RetrieveFirstOrDefault<TKey>(TKey key);
 
     /// <summary>
     /// Operación de seleccion en base a un predicado
     /// </summary>
     /// <param name="predicate"></param>
     /// <returns></returns>
-    TEntity Select(Expression<Func<TEntity, bool>> predicate);    
+    TEntity RetrieveFirstOrDefault(Expression<Func<TEntity, bool>> predicate);    
 
     /// <summary>
     /// Proyección de un conjunto de entidades en base a un predicado
     /// </summary>
     /// <param name="predicate"></param>
     /// <returns>Conjunto de objetos que cumplen con el predicado</returns>
-    IEnumerable<TEntity> Filter(Expression<Func<TEntity, bool>> predicate=null);
+    IEnumerable<TEntity> Retrieve(Expression<Func<TEntity, bool>> predicate=null);
 
     /// <summary>
     /// Proyección de un conjunto de entidades en base a un predicado paginado
@@ -65,7 +65,7 @@ public interface IRepositoryEf<TEntity>  where TEntity:class
     /// <param name="rowIndex"></param>
     /// <param name="pageSize"></param>
     /// <returns></returns>
-    IEnumerable<TEntity> FilterPagging<TOrder>(Expression<Func<TEntity, TOrder>> orderByExpression, bool isOrderByDesc = false, Expression<Func<TEntity, bool>> predicate = null, int rowIndex = 0, int pageSize = 200);
+    IEnumerable<TEntity> RetrievePagging<TOrder>(Expression<Func<TEntity, TOrder>> orderByExpression, bool isOrderByDesc = false, Expression<Func<TEntity, bool>> predicate = null, int rowIndex = 0, int pageSize = 200);
 
     /// <summary>
     /// Devuelve el total de coincidencias en base a un predicado
@@ -92,7 +92,7 @@ public interface IRepositoryEf<TEntity>  where TEntity:class
     /// <param name="elements">Enumeracion de objetos</param>
     /// <param name="saveSkip">Numero de elementos que almacenará en una transacción</param>
     /// <returns>Total instancias almacenadas</returns>
-    int Save(IEnumerable<TEntity> elements, int saveSkip = 200);
+    int Create(IEnumerable<TEntity> elements, int saveSkip = 200);
 
     ///// <summary>
     ///// Operacion que obtiene entidades en base a una carga paginada.

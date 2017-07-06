@@ -19,7 +19,7 @@ namespace EfRepository.Ef
         /// </summary>
         /// <param name="entity">entidad de negocio</param>
         /// <returns></returns>
-        Task<bool> SaveAsync(TEntity entity);
+        Task<bool> CreateAsync(TEntity entity);
         /// <summary>
         /// Operacion de actualizacion asincrono.
         /// </summary>
@@ -42,21 +42,21 @@ namespace EfRepository.Ef
         /// <typeparam name="TKey"></typeparam>
         /// <param name="key"></param>
         /// <returns></returns>
-        Task<TEntity> SelectAsync<TKey>(TKey key);
+        Task<TEntity> RetrieveFirstOrDefaultAsync<TKey>(TKey key);
 
         /// <summary>
         /// Operación de seleccion asincrono en base a un predicado.
         /// </summary>
         /// <param name="predicate"></param>
         /// <returns></returns>
-        Task<TEntity> SelectAsync(Expression<Func<TEntity, bool>> predicate);
+        Task<TEntity> RetrieveFirstOrDefaultAsync(Expression<Func<TEntity, bool>> predicate);
 
         /// <summary>
         /// Operación de consulta asincrona de un conjunto de entidades en base a un predicado.
         /// </summary>
         /// <param name="predicate"></param>
         /// <returns>Conjunto de objetos que cumplen con el predicado</returns>
-        Task<IEnumerable<TEntity>> FilterAsync(Expression<Func<TEntity, bool>> predicate = null);
+        Task<IEnumerable<TEntity>> RetrieveAsync(Expression<Func<TEntity, bool>> predicate = null);
 
         /// <summary>
         /// Operación de consulta asincrona de un conjunto de entidades en base a un predicado paginado.
@@ -68,7 +68,7 @@ namespace EfRepository.Ef
         /// <param name="rowIndex"></param>
         /// <param name="pageSize"></param>
         /// <returns></returns>
-        Task<IEnumerable<TEntity>> FilterPaggingAsync<TOrder>(Expression<Func<TEntity, TOrder>> orderByExpression, bool isOrderByDesc = false, Expression<Func<TEntity, bool>> predicate = null, int rowIndex = 0, int pageSize = 200);
+        Task<IEnumerable<TEntity>> RetrievePaggingAsync<TOrder>(Expression<Func<TEntity, TOrder>> orderByExpression, bool isOrderByDesc = false, Expression<Func<TEntity, bool>> predicate = null, int rowIndex = 0, int pageSize = 200);
 
         /// <summary>
         /// Devuelve el total de coincidencias en base a un predicado asincrono.
@@ -95,7 +95,7 @@ namespace EfRepository.Ef
         /// <param name="elements">Enumeracion de objetos</param>
         /// <param name="saveSkip">Numero de elementos que almacenará en una transacción</param>
         /// <returns>Total instancias almacenadas</returns>
-        Task<int> SaveAsync(IEnumerable<TEntity> elements, int saveSkip = 200);
+        Task<int> CreateAsync(IEnumerable<TEntity> elements, int saveSkip = 200);
 
         ///// <summary>
         ///// Operacion que obtiene entidades en base a una carga paginada.

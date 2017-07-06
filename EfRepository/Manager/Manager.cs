@@ -41,7 +41,7 @@ namespace EfRepository.Manager
             response.ObjectResponse = poco;
             try
             {
-                response.IsSucess = Repository.Save(poco);
+                response.IsSucess = Repository.Create(poco);
             }
             catch (Exception ex)
             {
@@ -60,7 +60,7 @@ namespace EfRepository.Manager
             response.ObjectResponse = poco;
             try
             {
-                response.IsSucess = await Repository.SaveAsync(poco);
+                response.IsSucess = await Repository.CreateAsync(poco);
             }
             catch (Exception ex)
             {
@@ -165,7 +165,7 @@ namespace EfRepository.Manager
             IManagerResponse<int> response = new ManagerResponse<int>();
             try
             {
-                response.ObjectResponse = Repository.Save(elements,saveSkip);
+                response.ObjectResponse = Repository.Create(elements,saveSkip);
                 response.IsSucess = true;
             }
             catch (Exception ex)
@@ -187,7 +187,7 @@ namespace EfRepository.Manager
             IManagerResponse<int> response = new ManagerResponse<int>();
             try
             {
-                response.ObjectResponse = await Repository.SaveAsync(elements, saveSkip);
+                response.ObjectResponse = await Repository.CreateAsync(elements, saveSkip);
                 response.IsSucess = true;
             }
             catch (Exception ex)
@@ -292,7 +292,7 @@ namespace EfRepository.Manager
             ManagerResponse<TPoco> response = new ManagerResponse<TPoco>();
             try
             {
-                response.ObjectResponse = Repository.Select(key);
+                response.ObjectResponse = Repository.RetrieveFirstOrDefault(key);
                 response.IsSucess = true;
             }
             catch (Exception ex)
@@ -314,7 +314,7 @@ namespace EfRepository.Manager
             ManagerResponse<TPoco> response = new ManagerResponse<TPoco>();
             try
             {
-                response.ObjectResponse = await Repository.SelectAsync(key);
+                response.ObjectResponse = await Repository.RetrieveFirstOrDefaultAsync(key);
                 response.IsSucess = true;
             }
             catch (Exception ex)
@@ -334,7 +334,7 @@ namespace EfRepository.Manager
             ManagerResponse<TPoco> response = new ManagerResponse<TPoco>();
             try
             {
-                response.ObjectResponse = Repository.Select(predicate);
+                response.ObjectResponse = Repository.RetrieveFirstOrDefault<Expression<Func<TPoco, bool>>>(predicate);
                 response.IsSucess = true;
             }
             catch (Exception ex)
@@ -354,7 +354,7 @@ namespace EfRepository.Manager
             ManagerResponse<TPoco> response = new ManagerResponse<TPoco>();
             try
             {
-                response.ObjectResponse = await Repository.SelectAsync(predicate);
+                response.ObjectResponse = await Repository.RetrieveFirstOrDefaultAsync(predicate);
                 response.IsSucess = true;
             }
             catch (Exception ex)
@@ -375,7 +375,7 @@ namespace EfRepository.Manager
             IManagerResponse<IEnumerable<TPoco>> response = new ManagerResponse<IEnumerable<TPoco>>();
             try
             {
-                response.ObjectResponse = Repository.Filter(predicate);
+                response.ObjectResponse = Repository.Retrieve(predicate);
                 response.IsSucess = true;
             }
             catch (Exception ex)
@@ -396,7 +396,7 @@ namespace EfRepository.Manager
             IManagerResponse<IEnumerable<TPoco>> response = new ManagerResponse<IEnumerable<TPoco>>();
             try
             {
-                response.ObjectResponse = await Repository.FilterAsync(predicate);
+                response.ObjectResponse = await Repository.RetrieveAsync(predicate);
                 response.IsSucess = true;
             }
             catch (Exception ex)
@@ -422,7 +422,7 @@ namespace EfRepository.Manager
             IManagerResponse<IEnumerable<TPoco>> response = new ManagerResponse<IEnumerable<TPoco>>();
             try
             {
-                response.ObjectResponse =  Repository.FilterPagging<TOrder>(orderByExpression,isOrderByDesc,predicate,rowIndex,pageSize);
+                response.ObjectResponse =  Repository.RetrievePagging<TOrder>(orderByExpression,isOrderByDesc,predicate,rowIndex,pageSize);
                 response.IsSucess = true;
             }
             catch (Exception ex)
@@ -447,7 +447,7 @@ namespace EfRepository.Manager
             IManagerResponse<IEnumerable<TPoco>> response = new ManagerResponse<IEnumerable<TPoco>>();
             try
             {
-                response.ObjectResponse = await Repository.FilterPaggingAsync<TOrder>(orderByExpression, isOrderByDesc, predicate, rowIndex, pageSize);
+                response.ObjectResponse = await Repository.RetrievePaggingAsync<TOrder>(orderByExpression, isOrderByDesc, predicate, rowIndex, pageSize);
                 response.IsSucess = true;
             }
             catch (Exception ex)

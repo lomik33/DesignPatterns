@@ -59,7 +59,7 @@ namespace EfRepository.Ef
         /// </summary>
         /// <param name="entity">objeto a persistir</param>
         /// <returns></returns>
-        public bool Save(TEntity entity)
+        public bool Create(TEntity entity)
         {
             bool centinela = false;
             Context.Set<TEntity>().Add(entity);
@@ -73,7 +73,7 @@ namespace EfRepository.Ef
         /// <param name="elements">Enumeracion de objetos</param>
         /// <param name="saveSkip">Numero de elementos que almacenará en una transacción</param>
         /// <returns>Total instancias almacenadas</returns>
-        public int Save(IEnumerable<TEntity> elements, int saveSkip = 200)
+        public int Create(IEnumerable<TEntity> elements, int saveSkip = 200)
         {
             int totalSave= 0;
             while (elements.Skip(totalSave).Take(saveSkip).Any())
@@ -120,7 +120,7 @@ namespace EfRepository.Ef
         /// <typeparam name="TKey"></typeparam>
         /// <param name="key"></param>
         /// <returns></returns>
-        public TEntity Select<TKey>(TKey key)
+        public TEntity RetrieveFirstOrDefault<TKey>(TKey key)
         {
             return Context.Set<TEntity>().Find(key);
         }
@@ -130,7 +130,7 @@ namespace EfRepository.Ef
         /// </summary>
         /// <param name="predicate"></param>
         /// <returns></returns>
-        public TEntity Select(Expression<Func<TEntity, bool>> predicate)
+        public TEntity RetrieveFirstOrDefault(Expression<Func<TEntity, bool>> predicate)
         {
             return Context.Set<TEntity>().FirstOrDefault(predicate);
         }
@@ -140,7 +140,7 @@ namespace EfRepository.Ef
         /// </summary>
         /// <param name="predicate"></param>
         /// <returns>Conjunto de objetos que cumplen con el predicado</returns>
-        public IEnumerable<TEntity> Filter(Expression<Func<TEntity, bool>> predicate=null)
+        public IEnumerable<TEntity> Retrieve(Expression<Func<TEntity, bool>> predicate=null)
         {
             if(predicate!=null)
                 return Context.Set<TEntity>().Where(predicate);
@@ -159,7 +159,7 @@ namespace EfRepository.Ef
         /// <param name="rowIndex"></param>
         /// <param name="pageSize"></param>
         /// <returns></returns>
-        public IEnumerable<TEntity> FilterPagging<TOrder>(Expression<Func<TEntity, TOrder>> orderByExpression, bool isOrderByDesc = false, Expression < Func<TEntity, bool>> predicate = null, int rowIndex = 0, int pageSize = 200)
+        public IEnumerable<TEntity> RetrievePagging<TOrder>(Expression<Func<TEntity, TOrder>> orderByExpression, bool isOrderByDesc = false, Expression < Func<TEntity, bool>> predicate = null, int rowIndex = 0, int pageSize = 200)
         {
             IQueryable<TEntity> _resetSet = null;
             var set = this.Context.Set<TEntity>().AsQueryable<TEntity>();
@@ -188,7 +188,7 @@ namespace EfRepository.Ef
         /// </summary>
         /// <param name="entity">entidad de negocio</param>
         /// <returns></returns>
-        public async Task<bool> SaveAsync(TEntity entity)
+        public async Task<bool> CreateAsync(TEntity entity)
         {
             bool centinela = false;
             Context.Set<TEntity>().Add(entity);
@@ -230,7 +230,7 @@ namespace EfRepository.Ef
         /// <typeparam name="TKey"></typeparam>
         /// <param name="key"></param>
         /// <returns></returns>
-        public async Task<TEntity> SelectAsync<TKey>(TKey key)
+        public async Task<TEntity> RetrieveFirstOrDefaultAsync<TKey>(TKey key)
         {
             return await Context.Set<TEntity>().FindAsync(key);
         }
@@ -241,7 +241,7 @@ namespace EfRepository.Ef
         /// </summary>
         /// <param name="predicate"></param>
         /// <returns></returns>
-        public async Task<TEntity> SelectAsync(Expression<Func<TEntity, bool>> predicate)
+        public async Task<TEntity> RetrieveFirstOrDefaultAsync(Expression<Func<TEntity, bool>> predicate)
         {
             return await Context.Set<TEntity>().FirstOrDefaultAsync(predicate);
         }
@@ -252,7 +252,7 @@ namespace EfRepository.Ef
         /// </summary>
         /// <param name="predicate"></param>
         /// <returns>Conjunto de objetos que cumplen con el predicado</returns>
-        public async Task<IEnumerable<TEntity>> FilterAsync(Expression<Func<TEntity, bool>> predicate = null)
+        public async Task<IEnumerable<TEntity>> RetrieveAsync(Expression<Func<TEntity, bool>> predicate = null)
         {
             if (predicate != null)
                 return await Context.Set<TEntity>().Where(predicate).ToListAsync<TEntity>();
@@ -271,7 +271,7 @@ namespace EfRepository.Ef
         /// <param name="rowIndex"></param>
         /// <param name="pageSize"></param>
         /// <returns></returns>        
-        public async Task<IEnumerable<TEntity>> FilterPaggingAsync<TOrder>(Expression<Func<TEntity, TOrder>> orderByExpression, bool isOrderByDesc = false, Expression<Func<TEntity, bool>> predicate = null, int rowIndex = 0, int pageSize = 200)
+        public async Task<IEnumerable<TEntity>> RetrievePaggingAsync<TOrder>(Expression<Func<TEntity, TOrder>> orderByExpression, bool isOrderByDesc = false, Expression<Func<TEntity, bool>> predicate = null, int rowIndex = 0, int pageSize = 200)
         {
             IQueryable<TEntity> _resetSet = null;
             var set = this.Context.Set<TEntity>().AsQueryable<TEntity>();
@@ -326,7 +326,7 @@ namespace EfRepository.Ef
         /// <param name="elements">Enumeracion de objetos</param>
         /// <param name="saveSkip">Numero de elementos que almacenará en una transacción</param>
         /// <returns>Total instancias almacenadas</returns>
-        public async Task<int> SaveAsync(IEnumerable<TEntity> elements, int saveSkip = 200)
+        public async Task<int> CreateAsync(IEnumerable<TEntity> elements, int saveSkip = 200)
         {
             int totalSave = 0;
             while (elements.Skip(totalSave).Take(saveSkip).Any())
