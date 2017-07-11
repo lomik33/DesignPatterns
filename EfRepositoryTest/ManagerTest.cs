@@ -2,6 +2,7 @@
 using EfRepository.Ef;
 using EfRepository.Manager;
 using EfRepository.Models;
+using EfRepository.Repository;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;

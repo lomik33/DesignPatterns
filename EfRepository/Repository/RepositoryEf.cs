@@ -6,7 +6,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-namespace EfRepository.Ef
+namespace EfRepository.Repository
 {
     /// <summary>
     /// Clase que implementa el patrón Repository con Entity Framework

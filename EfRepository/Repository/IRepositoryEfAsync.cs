@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-namespace EfRepository.Ef
+namespace EfRepository.Repository
 {
     /// <summary>
     /// Interfaz que define el comportamiento del patron Repository para especializado para la plataforma .Net Framework 4.6 comportamiento asincrono

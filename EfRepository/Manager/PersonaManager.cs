@@ -1,5 +1,6 @@
 ﻿using EfRepository.Models;
 using EfRepository.Ef;
+using EfRepository.Repository;
 
 namespace EfRepository.Manager
 {

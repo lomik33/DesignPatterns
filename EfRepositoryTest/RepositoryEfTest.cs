@@ -2,6 +2,7 @@
 
 using EfRepository.Ef;
 using EfRepository.Models;
+using EfRepository.Repository;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Diagnostics;
