@@ -283,7 +283,7 @@ namespace EfRepository.Manager
         }
 
         /// <summary>
-        /// Metodo de Logica de Negocio de seleccion en base a una key
+        /// Metodo de Logica de Negocio de seleccion en base a una key, se requiere repository con contexto loadlazy=true
         /// </summary>
         /// <typeparam name="TKey"></typeparam>
         /// <param name="key"></param>
@@ -305,7 +305,7 @@ namespace EfRepository.Manager
 
 
         /// <summary>
-        /// Metodo de Logica de Negocio de seleccion en base a una key
+        /// Metodo de Logica de Negocio de seleccion en base a una key, requiere del contexto loadlazy=true.
         /// </summary>
         /// <typeparam name="TKey"></typeparam>
         /// <param name="key"></param>
@@ -329,13 +329,14 @@ namespace EfRepository.Manager
         /// Metodo de Logica de Negocios de seleccion en base a un predicado
         /// </summary>
         /// <param name="predicate"></param>
+        /// <param name="includeExpressions">expresiones de inclusion</param>
         /// <returns></returns>
-        public IManagerResponse<TPoco> Select(Expression<Func<TPoco, bool>> predicate)
+        public IManagerResponse<TPoco> Select(Expression<Func<TPoco, bool>> predicate, params Expression<Func<TPoco, object>>[] includeExpressions)
         {
             ManagerResponse<TPoco> response = new ManagerResponse<TPoco>();
             try
             {
-                response.ObjectResponse = Repository.RetrieveFirstOrDefault<Expression<Func<TPoco, bool>>>(predicate);
+                response.ObjectResponse = Repository.RetrieveFirstOrDefault(predicate,includeExpressions);
                 response.IsSucess = true;
             }
             catch (Exception ex)
@@ -349,13 +350,14 @@ namespace EfRepository.Manager
         /// Metodo de Logica de Negocios de seleccion en base a un predicado asincrono
         /// </summary>
         /// <param name="predicate"></param>
+        /// <param name="includeExpressions">expresiones de inclusión</param>
         /// <returns></returns>
-        public async Task<IManagerResponse<TPoco>> SelectAsync(Expression<Func<TPoco, bool>> predicate)
+        public async Task<IManagerResponse<TPoco>> SelectAsync(Expression<Func<TPoco, bool>> predicate, params Expression<Func<TPoco, object>>[] includeExpressions)
         {
             ManagerResponse<TPoco> response = new ManagerResponse<TPoco>();
             try
             {
-                response.ObjectResponse = await Repository.RetrieveFirstOrDefaultAsync(predicate);
+                response.ObjectResponse = await Repository.RetrieveFirstOrDefaultAsync(predicate,includeExpressions);
                 response.IsSucess = true;
             }
             catch (Exception ex)
@@ -370,13 +372,14 @@ namespace EfRepository.Manager
         /// Metodo de Logica de Negocios que recupera de una coleccion de objetos en base a un predicado
         /// </summary>
         /// <param name="predicate"></param>
+        /// <param name="includeExpressions">expresiones de inclusión</param>
         /// <returns>Conjunto de objetos que cumplen con el predicado</returns>
-        public IManagerResponse<IEnumerable<TPoco>> Filter(Expression<Func<TPoco, bool>> predicate = null)
+        public IManagerResponse<IEnumerable<TPoco>> Filter(Expression<Func<TPoco, bool>> predicate = null, params Expression<Func<TPoco, object>>[] includeExpressions)
         {
             IManagerResponse<IEnumerable<TPoco>> response = new ManagerResponse<IEnumerable<TPoco>>();
             try
             {
-                response.ObjectResponse = Repository.Retrieve(predicate);
+                response.ObjectResponse = Repository.Retrieve(predicate,includeExpressions);
                 response.IsSucess = true;
             }
             catch (Exception ex)
@@ -391,13 +394,15 @@ namespace EfRepository.Manager
         /// Metodo de Logica de Negocios que recupera de una coleccion de objetos en base a un predicado
         /// </summary>
         /// <param name="predicate"></param>
+        /// <param name=""></param>
+        /// <param name="includeExpressions">expresiones de inclusión</param>
         /// <returns>Conjunto de objetos que cumplen con el predicado</returns>
-        public async Task<IManagerResponse<IEnumerable<TPoco>>> FilterAsync(Expression<Func<TPoco, bool>> predicate = null)
+        public async Task<IManagerResponse<IEnumerable<TPoco>>> FilterAsync(Expression<Func<TPoco, bool>> predicate = null, params Expression<Func<TPoco, object>>[] includeExpressions)
         {
             IManagerResponse<IEnumerable<TPoco>> response = new ManagerResponse<IEnumerable<TPoco>>();
             try
             {
-                response.ObjectResponse = await Repository.RetrieveAsync(predicate);
+                response.ObjectResponse = await Repository.RetrieveAsync(predicate,includeExpressions);
                 response.IsSucess = true;
             }
             catch (Exception ex)
@@ -417,13 +422,14 @@ namespace EfRepository.Manager
         /// <param name="predicate"></param>
         /// <param name="rowIndex"></param>
         /// <param name="pageSize"></param>
+        /// <param name="includeExpressions">expresiones de inclusion</param>
         /// <returns></returns>
-        public IManagerResponse<IEnumerable<TPoco>> FilterPagging<TOrder>(Expression<Func<TPoco,TOrder>> orderByExpression, bool isOrderByDesc = false, Expression<Func<TPoco, bool>> predicate = null, int rowIndex = 0, int pageSize = 200)
+        public IManagerResponse<IEnumerable<TPoco>> FilterPagging<TOrder>(Expression<Func<TPoco,TOrder>> orderByExpression, bool isOrderByDesc = false, Expression<Func<TPoco, bool>> predicate = null, int rowIndex = 0, int pageSize = 200, params Expression<Func<TPoco, object>>[] includeExpressions)
         {
             IManagerResponse<IEnumerable<TPoco>> response = new ManagerResponse<IEnumerable<TPoco>>();
             try
             {
-                response.ObjectResponse =  Repository.RetrievePagging<TOrder>(orderByExpression,isOrderByDesc,predicate,rowIndex,pageSize);
+                response.ObjectResponse =  Repository.RetrievePagging<TOrder>(orderByExpression,isOrderByDesc,predicate,rowIndex,pageSize,includeExpressions);
                 response.IsSucess = true;
             }
             catch (Exception ex)
@@ -442,13 +448,14 @@ namespace EfRepository.Manager
         /// <param name="predicate"></param>
         /// <param name="rowIndex"></param>
         /// <param name="pageSize"></param>
+        /// <param name="includeExpressions">expresiones de inclusión</param>
         /// <returns></returns>
-        public async Task<IManagerResponse<IEnumerable<TPoco>>> FilterPaggingAsync<TOrder>(Expression<Func<TPoco, TOrder>> orderByExpression, bool isOrderByDesc = false, Expression<Func<TPoco, bool>> predicate = null, int rowIndex = 0, int pageSize = 200)
+        public async Task<IManagerResponse<IEnumerable<TPoco>>> FilterPaggingAsync<TOrder>(Expression<Func<TPoco, TOrder>> orderByExpression, bool isOrderByDesc = false, Expression<Func<TPoco, bool>> predicate = null, int rowIndex = 0, int pageSize = 200, params Expression<Func<TPoco, object>>[] includeExpressions)
         {
             IManagerResponse<IEnumerable<TPoco>> response = new ManagerResponse<IEnumerable<TPoco>>();
             try
             {
-                response.ObjectResponse = await Repository.RetrievePaggingAsync<TOrder>(orderByExpression, isOrderByDesc, predicate, rowIndex, pageSize);
+                response.ObjectResponse = await Repository.RetrievePaggingAsync<TOrder>(orderByExpression, isOrderByDesc, predicate, rowIndex, pageSize,includeExpressions);
                 response.IsSucess = true;
             }
             catch (Exception ex)

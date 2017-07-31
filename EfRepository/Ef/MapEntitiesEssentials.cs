@@ -13,11 +13,17 @@ namespace EfRepository.Ef
         public void MapEntitiesEssentials(DbModelBuilder modelBuilder)
         {
             modelBuilder.Configurations.Add(new PersonaPocoEntityConfiguration());
+            modelBuilder.Configurations.Add(new DireccionPocoEntityConfiguration());
         }
 
         /// <summary>
         /// Conjunto de objetos PersonaPocoSample
         /// </summary>
         public DbSet<PersonaPocoSample> Personas { get; set; }
+        
+        /// <summary>
+        /// Se agrega para mostrar relacion se asociacion
+        /// </summary>
+        public DbSet<DireccionPocoSample> Direcciones { get; set; }
     }
 }

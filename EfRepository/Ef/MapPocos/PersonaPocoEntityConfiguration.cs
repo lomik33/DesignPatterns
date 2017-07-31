@@ -25,7 +25,8 @@ namespace EfRepository.Ef.MapPocos
                 .IsRequired();
             Property(p => p.Sexo)
                 .IsRequired()
-                .HasMaxLength(1);           
+                .HasMaxLength(1);
+            HasOptional(r => r.Direccion).WithMany().HasForeignKey(r => r.DireccionRefId);
         }
     }
 }

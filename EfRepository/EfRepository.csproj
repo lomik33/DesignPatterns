@@ -56,11 +56,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Ef\MapPocos\DireccionPocoEntityConfiguration.cs" />
     <Compile Include="Manager\IManagerResponse.cs" />
     <Compile Include="Manager\Manager.cs" />
     <Compile Include="Ef\EntityContextSample.cs" />
     <Compile Include="Manager\ManagerResponse.cs" />
     <Compile Include="Manager\PersonaManager.cs" />
+    <Compile Include="Models\DireccionPocoSample.cs" />
     <Compile Include="Repository\IRepositoryEf.cs" />
     <Compile Include="Repository\IRepositoryEfAsync.cs" />
     <Compile Include="Ef\MapEntitiesEssentials.cs" />

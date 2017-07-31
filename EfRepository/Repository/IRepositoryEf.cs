@@ -47,15 +47,17 @@ namespace EfRepository.Repository {
         /// Operación de seleccion en base a un predicado
         /// </summary>
         /// <param name="predicate"></param>
+        /// <param name="includeExpressions">expresiones de entidades que se deben incluir</param>
         /// <returns></returns>
-        TEntity RetrieveFirstOrDefault(Expression<Func<TEntity, bool>> predicate);
+        TEntity RetrieveFirstOrDefault(Expression<Func<TEntity, bool>> predicate, params Expression<Func<TEntity, object>>[] includeExpressions);
 
         /// <summary>
         /// Proyección de un conjunto de entidades en base a un predicado
         /// </summary>
         /// <param name="predicate"></param>
+        /// <param name="includeExpressions">expresiones lambda de entidades que se deben incluir en la ejecución del query.</param>
         /// <returns>Conjunto de objetos que cumplen con el predicado</returns>
-        IEnumerable<TEntity> Retrieve(Expression<Func<TEntity, bool>> predicate = null);
+        IEnumerable<TEntity> Retrieve(Expression<Func<TEntity, bool>> predicate = null, params Expression<Func<TEntity, object>>[] includeExpressions);
 
         /// <summary>
         /// Proyección de un conjunto de entidades en base a un predicado paginado
@@ -66,8 +68,9 @@ namespace EfRepository.Repository {
         /// <param name="predicate"></param>
         /// <param name="rowIndex"></param>
         /// <param name="pageSize"></param>
+        /// <param name="includeExpressions">expresiones lambda de entidades que se deben incluir en la ejecución del query.</param>
         /// <returns></returns>
-        IEnumerable<TEntity> RetrievePagging<TOrder>(Expression<Func<TEntity, TOrder>> orderByExpression, bool isOrderByDesc = false, Expression<Func<TEntity, bool>> predicate = null, int rowIndex = 0, int pageSize = 200);
+        IEnumerable<TEntity> RetrievePagging<TOrder>(Expression<Func<TEntity, TOrder>> orderByExpression, bool isOrderByDesc = false, Expression<Func<TEntity, bool>> predicate = null, int rowIndex = 0, int pageSize = 200, params Expression<Func<TEntity, object>>[] includeExpressions);
 
         /// <summary>
         /// Devuelve el total de coincidencias en base a un predicado

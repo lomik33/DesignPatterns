@@ -43,7 +43,45 @@ namespace EfRepositoryTest
             {
                 Debug.WriteLine($"{poco.Nombre} {poco.ApellidoPaterno} {poco.ApellidoMaterno} no ha podido ser registrado detalle: {ex}");
             }
+        }
 
+
+        /// <summary>
+        /// Se consulta entidad persona con sus relaciones en base a lazy
+        /// </summary>
+        [TestMethod]
+        public void TestSelect()
+        {
+            //Repository y Contexto por Inyeccion de Dependencias
+            using (var context = new EntityContextSample())
+            {
+                //LoadLazy=true implicito
+                var manager = new PersonaManager(new RepositoryEf<EntityContextSample, PersonaPocoSample>(context));
+                var response=manager.Filter();
+                foreach (var persona in response?.ObjectResponse)
+                    Debug.WriteLine(persona + " dirección: " + persona.Direccion);
+            }
+
+        }
+
+
+        /// <summary>
+        /// Se consulta entidad persona con sus relaciones haciendo uso de includes
+        /// </summary>
+        [TestMethod]
+        public void TestSelectInclude()
+        {
+            //Repository y Contexto por Inyeccion de Dependencias
+            using (var context = new EntityContextSample())
+            {
+                //LoadLazy=false 
+                context.Configuration.LazyLoadingEnabled = false;                
+                var manager = new PersonaManager(new RepositoryEf<EntityContextSample, PersonaPocoSample>(context));
+                //Expresion de inclusión
+                var response = manager.Filter(includeExpressions:e=>e.Direccion);
+                foreach (var persona in response?.ObjectResponse)
+                    Debug.WriteLine(persona + " dirección: " + persona.Direccion);
+            }
 
         }
     }

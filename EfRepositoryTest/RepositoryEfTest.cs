@@ -25,6 +25,7 @@ namespace EfRepositoryTest
                 poco.ApellidoMaterno = "Andalón";
                 poco.FechaNacimiento = new DateTime(1987, 02, 12);
                 poco.Sexo = "M";
+                poco.Direccion = new DireccionPocoSample("Av. Ruiz C.", "Centro", "98");
                 try
                 {
                     if (repository.Create(poco))
@@ -55,12 +56,42 @@ namespace EfRepositoryTest
         }
 
         [TestMethod]
-        public void TestSelect()
+        public void TestSelectKey()
         {
-            var repository = new RepositoryEf<EntityContextSample, PersonaPocoSample>(new EntityContextSample());
-            /*Búsqueda por Guid*/
-            var person = repository.RetrieveFirstOrDefault<Guid>(Guid.Parse("2a5a55df-f35c-e711-9eb9-ecb1d73edabf"));
-            Debug.WriteLine($"{person}");
+            using (var context = new EntityContextSample())
+            {
+                context.Configuration.LazyLoadingEnabled = false;
+                var repository = new RepositoryEf<EntityContextSample, PersonaPocoSample>(context);
+                /*Búsqueda por Guid*/
+                var person = repository.RetrieveFirstOrDefault<Guid>(Guid.Parse("74F43D82-2276-E711-9EC1-ECB1D73EDABF"));
+                Debug.WriteLine($"{person}");
+                Debug.WriteLine(person.Direccion);
+            }
+
+
+        }
+
+
+
+
+        /// <summary>
+        /// Test con expresiones include
+        /// </summary>
+        [TestMethod]
+        public void TestSelectInclude()
+        {
+            using (var context = new EntityContextSample())
+            {
+                //Desahibilita la carga lazy para que no cargue sus relaciones
+                context.Configuration.LazyLoadingEnabled = false;
+                var repository = new RepositoryEf<EntityContextSample, PersonaPocoSample>(context);
+                Guid uidd = Guid.Parse("74F43D82-2276-E711-9EC1-ECB1D73EDABF");
+                /*Búsqueda por Guid*/
+                var person = repository.RetrieveFirstOrDefault(e=>e.Uuid==uidd,e=>e.Direccion);
+                Debug.WriteLine($"{person}");
+                Debug.WriteLine(person.Direccion);
+            }
+
 
         }
 

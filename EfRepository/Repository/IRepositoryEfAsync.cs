@@ -48,15 +48,17 @@ namespace EfRepository.Repository
         /// Operación de seleccion asincrono en base a un predicado.
         /// </summary>
         /// <param name="predicate"></param>
+        /// <param name="includeExpressions">expresiones lambda de entidades que se deben incluir en la ejecución del query.</param>
         /// <returns></returns>
-        Task<TEntity> RetrieveFirstOrDefaultAsync(Expression<Func<TEntity, bool>> predicate);
+        Task<TEntity> RetrieveFirstOrDefaultAsync(Expression<Func<TEntity, bool>> predicate, params Expression<Func<TEntity, object>>[] includeExpressions);
 
         /// <summary>
         /// Operación de consulta asincrona de un conjunto de entidades en base a un predicado.
         /// </summary>
         /// <param name="predicate"></param>
+        /// <param name="includeExpressions">expresiones lambda de entidades que se deben incluir en la ejecución del query.</param>
         /// <returns>Conjunto de objetos que cumplen con el predicado</returns>
-        Task<IEnumerable<TEntity>> RetrieveAsync(Expression<Func<TEntity, bool>> predicate = null);
+        Task<IEnumerable<TEntity>> RetrieveAsync(Expression<Func<TEntity, bool>> predicate = null, params Expression<Func<TEntity, object>>[] includeExpressions);
 
         /// <summary>
         /// Operación de consulta asincrona de un conjunto de entidades en base a un predicado paginado.
@@ -67,8 +69,9 @@ namespace EfRepository.Repository
         /// <param name="predicate"></param>
         /// <param name="rowIndex"></param>
         /// <param name="pageSize"></param>
+        /// <param name="includeExpressions">expresiones lambda de entidades que se deben incluir en la ejecución del query.</param>
         /// <returns></returns>
-        Task<IEnumerable<TEntity>> RetrievePaggingAsync<TOrder>(Expression<Func<TEntity, TOrder>> orderByExpression, bool isOrderByDesc = false, Expression<Func<TEntity, bool>> predicate = null, int rowIndex = 0, int pageSize = 200);
+        Task<IEnumerable<TEntity>> RetrievePaggingAsync<TOrder>(Expression<Func<TEntity, TOrder>> orderByExpression, bool isOrderByDesc = false, Expression<Func<TEntity, bool>> predicate = null, int rowIndex = 0, int pageSize = 200, params Expression<Func<TEntity, object>>[] includeExpressions);
 
         /// <summary>
         /// Devuelve el total de coincidencias en base a un predicado asincrono.

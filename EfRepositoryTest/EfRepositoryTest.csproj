@@ -74,11 +74,11 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="EF.mdf">
+    <Content Include="Ef.ldf">
+      <DependentUpon>Ef.mdf</DependentUpon>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="EF_log.ldf">
-      <DependentUpon>EF.mdf</DependentUpon>
+    <Content Include="Ef.mdf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

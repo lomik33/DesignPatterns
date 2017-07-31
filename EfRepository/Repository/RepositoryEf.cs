@@ -115,10 +115,10 @@ namespace EfRepository.Repository
         }
 
         /// <summary>
-        /// Operacion de seleccion
+        /// Operacion de seleccion en base a su llave primaria requiere carga lazy=true para cargar sus relaciones
         /// </summary>
         /// <typeparam name="TKey"></typeparam>
-        /// <param name="key"></param>
+        /// <param name="key"></param>        
         /// <returns></returns>
         public TEntity RetrieveFirstOrDefault<TKey>(TKey key)
         {
@@ -129,23 +129,25 @@ namespace EfRepository.Repository
         /// Operación de seleccion en base a un predicado
         /// </summary>
         /// <param name="predicate"></param>
+        /// <param name="includeExpressions">expresiones lambda de entidades que se deben incluir en la ejecución del query.</param>
         /// <returns></returns>
-        public TEntity RetrieveFirstOrDefault(Expression<Func<TEntity, bool>> predicate)
+        public TEntity RetrieveFirstOrDefault(Expression<Func<TEntity, bool>> predicate, params Expression<Func<TEntity, object>>[] includeExpressions)
         {
-            return Context.Set<TEntity>().FirstOrDefault(predicate);
+            return QueryableFactory(includeExpressions).FirstOrDefault(predicate);
         }
 
         /// <summary>
         /// Proyección de un conjunto de entidades en base a un predicado
         /// </summary>
         /// <param name="predicate"></param>
+        /// <param name="includeExpressions">expresiones lambda de entidades que se deben incluir en la ejecución del query.</param>
         /// <returns>Conjunto de objetos que cumplen con el predicado</returns>
-        public IEnumerable<TEntity> Retrieve(Expression<Func<TEntity, bool>> predicate=null)
+        public IEnumerable<TEntity> Retrieve(Expression<Func<TEntity, bool>> predicate=null, params Expression<Func<TEntity, object>>[] includeExpressions)
         {
-            if(predicate!=null)
-                return Context.Set<TEntity>().Where(predicate);
+            if (predicate != null)
+                return QueryableFactory(includeExpressions).Where(predicate);
             else
-                return Context.Set<TEntity>().AsQueryable();
+                return QueryableFactory(includeExpressions);
         }
 
 
@@ -158,11 +160,12 @@ namespace EfRepository.Repository
         /// <param name="predicate"></param>
         /// <param name="rowIndex"></param>
         /// <param name="pageSize"></param>
+        /// <param name="includeExpressions">expresiones lambda de entidades que se deben incluir en la ejecución del query.</param>
         /// <returns></returns>
-        public IEnumerable<TEntity> RetrievePagging<TOrder>(Expression<Func<TEntity, TOrder>> orderByExpression, bool isOrderByDesc = false, Expression < Func<TEntity, bool>> predicate = null, int rowIndex = 0, int pageSize = 200)
+        public IEnumerable<TEntity> RetrievePagging<TOrder>(Expression<Func<TEntity, TOrder>> orderByExpression, bool isOrderByDesc = false, Expression < Func<TEntity, bool>> predicate = null, int rowIndex = 0, int pageSize = 200, params Expression<Func<TEntity, object>>[] includeExpressions)
         {
             IQueryable<TEntity> _resetSet = null;
-            var set = this.Context.Set<TEntity>().AsQueryable<TEntity>();
+            var set = QueryableFactory(includeExpressions);
             if (predicate != null)
             {
                 set = set.Where(predicate);
@@ -225,7 +228,7 @@ namespace EfRepository.Repository
         }
 
         /// <summary>
-        /// Operacion de seleccion asincrono.
+        /// Operacion de seleccion asincrono en base a su llave primaria requiere lazy=true para cargar sus relaciones.
         /// </summary>
         /// <typeparam name="TKey"></typeparam>
         /// <param name="key"></param>
@@ -240,10 +243,11 @@ namespace EfRepository.Repository
         /// Operación de seleccion asincrono en base a un predicado.
         /// </summary>
         /// <param name="predicate"></param>
+        /// /// <param name="includeExpressions">expresiones lambda de entidades que se deben incluir en la ejecución del query.</param>
         /// <returns></returns>
-        public async Task<TEntity> RetrieveFirstOrDefaultAsync(Expression<Func<TEntity, bool>> predicate)
+        public async Task<TEntity> RetrieveFirstOrDefaultAsync(Expression<Func<TEntity, bool>> predicate, params Expression<Func<TEntity, object>>[] includeExpressions)
         {
-            return await Context.Set<TEntity>().FirstOrDefaultAsync(predicate);
+            return await QueryableFactory(includeExpressions).FirstOrDefaultAsync(predicate);
         }
 
 
@@ -251,13 +255,14 @@ namespace EfRepository.Repository
         /// Operación de consulta asincrona de un conjunto de entidades en base a un predicado.
         /// </summary>
         /// <param name="predicate"></param>
+        /// /// <param name="includeExpressions">expresiones lambda de entidades que se deben incluir en la ejecución del query.</param>
         /// <returns>Conjunto de objetos que cumplen con el predicado</returns>
-        public async Task<IEnumerable<TEntity>> RetrieveAsync(Expression<Func<TEntity, bool>> predicate = null)
+        public async Task<IEnumerable<TEntity>> RetrieveAsync(Expression<Func<TEntity, bool>> predicate = null, params Expression<Func<TEntity, object>>[] includeExpressions)
         {
             if (predicate != null)
-                return await Context.Set<TEntity>().Where(predicate).ToListAsync<TEntity>();
+                return await QueryableFactory(includeExpressions).Where(predicate).ToListAsync<TEntity>();
             else
-                return await Context.Set<TEntity>().AsQueryable().ToListAsync<TEntity>();
+                return await QueryableFactory(includeExpressions).AsQueryable().ToListAsync<TEntity>();
         }
 
 
@@ -270,11 +275,12 @@ namespace EfRepository.Repository
         /// <param name="predicate"></param>
         /// <param name="rowIndex"></param>
         /// <param name="pageSize"></param>
+        /// <param name="includeExpressions">expresiones lambda de entidades que se deben incluir en la ejecución del query.</param>
         /// <returns></returns>        
-        public async Task<IEnumerable<TEntity>> RetrievePaggingAsync<TOrder>(Expression<Func<TEntity, TOrder>> orderByExpression, bool isOrderByDesc = false, Expression<Func<TEntity, bool>> predicate = null, int rowIndex = 0, int pageSize = 200)
+        public async Task<IEnumerable<TEntity>> RetrievePaggingAsync<TOrder>(Expression<Func<TEntity, TOrder>> orderByExpression, bool isOrderByDesc = false, Expression<Func<TEntity, bool>> predicate = null, int rowIndex = 0, int pageSize = 200, params Expression<Func<TEntity, object>>[] includeExpressions)
         {
             IQueryable<TEntity> _resetSet = null;
-            var set = this.Context.Set<TEntity>().AsQueryable<TEntity>();
+            var set = QueryableFactory(includeExpressions);
             if (predicate != null)
             {
                 set = set.Where(predicate);
@@ -348,6 +354,37 @@ namespace EfRepository.Repository
             if (Context != null)
                 Context.Dispose();
         }
+
+
+        /// <summary>
+        /// Obtiene un objeto preparado para agregar querys lambda 
+        /// </summary>
+        /// <returns></returns>
+        private IQueryable<TEntity> QueryableFactory()
+        {
+            return Context.Set<TEntity>().AsQueryable();
+        }
+
+
+        /// <summary>
+        /// Prepara la consulta con expresiones include
+        /// </summary>
+        /// <param name="includeExpressions"></param>
+        /// <returns></returns>
+        private IQueryable<TEntity> QueryableFactory(params Expression<Func<TEntity, object>>[] includeExpressions)
+        {
+            var queryBase = this.QueryableFactory();
+            if (includeExpressions != null)
+            {
+                foreach (var navigationProperty in includeExpressions)
+                {
+                    if (navigationProperty != null)
+                        queryBase = queryBase.Include(navigationProperty); 
+                }
+            }
+            return queryBase;
+        }
+
     #endregion
     }
 }
